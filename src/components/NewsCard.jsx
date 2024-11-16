@@ -1,11 +1,10 @@
-import { FaShareAlt, FaRegEye } from "react-icons/fa";
-import { AiFillStar } from "react-icons/ai";
+import { FaShareAlt, FaRegEye, FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
 const NewsCard = (props = {}) => {
   const { news } = props || {};
 
   return (
-    <div className=" p-4 bg-white rounded-lg shadow-md">
+    <div className=" p-4 bg-white rounded-lg shadow-md mb-3">
       {/* Author Information */}
       <div className="flex items-center mb-4">
         <img
@@ -40,16 +39,21 @@ const NewsCard = (props = {}) => {
 
       {/* Ratings and Views */}
       <div className="flex items-center justify-between text-gray-600 text-sm">
-        {/* Rating */}
-        <div className="flex items-center">
-          {[...Array(5)].map((_, i) => (
-            <AiFillStar
-              key={i}
-              className={`text-yellow-500 ${
-                i < Math.round(news.rating.number) ? "" : "opacity-50"
-              }`}
-            />
-          ))}
+       
+        {/* Ratings */}
+        <div className="flex items-center space-x-1 text-gray-600">
+          {Array.from({ length: 5 }, (_, index) => {
+            if (index < Math.floor(news.rating.number)) {
+              // Fully filled stars
+              return <FaStar key={index} className="text-yellow-500" />;
+            } else if (index < news.rating.number) {
+              // Half-filled star
+              return <FaStarHalfAlt key={index} className="text-yellow-500" />;
+            } else {
+              // Empty stars
+              return <FaRegStar key={index} className="text-gray-300" />;
+            }
+          })}
           <span className="ml-2 font-semibold">{news.rating.number}</span>
         </div>
 
@@ -63,7 +67,3 @@ const NewsCard = (props = {}) => {
   );
 };
 export default NewsCard;
-
-// Sample news
-
-//
